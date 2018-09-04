@@ -3,19 +3,24 @@ import ReactDOM from 'react-dom'
 import { createStore } from 'redux';
 import {Provider, connect} from 'react-redux'
 
-const HelloWorld = ({message, dispatch}) => 
+const HelloWorld = ({message, sendMessage1, sendMessage2}) => 
     <div>
         <h1>Hello World</h1>
         <h2>{message}</h2>
-        <button onClick={() => dispatch({type:'MESSAGE_1'})}>Send Message 1</button>
-        <button onClick={() => dispatch({type:'MESSAGE_2'})}>Send Message 2</button>
+        <button onClick={sendMessage1}>Send Message 1</button>
+        <button onClick={sendMessage2}>Send Message 2</button>
     </div>
 
 const stateToPropertyMapper = state => ({
         message: state.message 
     })
 
-const HelloContainer = connect(stateToPropertyMapper)(HelloWorld)
+const dispatherTopropertyMapper = dispatch => ({
+    sendMessage1: () => dispatch({type: "MESSAGE_1"}),
+    sendMessage2: () => dispatch({type: "MESSAGE_2"})
+})
+
+const HelloContainer = connect(stateToPropertyMapper, dispatherTopropertyMapper)(HelloWorld)
 
 let initialState = {
     message: 'Carpe diem'
